@@ -1,0 +1,9 @@
+.fa-crown {
+  transform: rotate(-45deg);
+  top: 0;
+  left: -18px;
+}
+
+.fa-beat {
+  --fa-beat-scale: 1.05 !important;
+}

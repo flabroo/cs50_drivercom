@@ -1,3 +1,28 @@
-#hof > .container {
-  /* height: 600px; */
+@media (min-width: 992px) {
+  .container .plates, .container .incidents {
+    max-height: 400px;
+    overflow-y: auto;
+    /* -ms-overflow-style: none;
+    scrollbar-width: none; */
+  }
+
+  .incidents {
+    width: 800px;
+  }
+
+  body::-webkit-scrollbar, body::-webkit-scrollbar {
+    display: none;
+  }
+
+  .container .plates::-webkit-scrollbar, .container .incidents::-webkit-scrollbar {
+    width: 10px;
+  }
+  .container .plates::-webkit-scrollbar-thumb, .container .incidents::-webkit-scrollbar-thumb {
+    background-color: #333;
+    border-radius: 10px;
+  }
+  .container .plates::-webkit-scrollbar-track, .container .incidents::-webkit-scrollbar-track {
+    background-color: #ddd;
+    border-radius: 10px;
+  }
 }

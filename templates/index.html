@@ -8,10 +8,10 @@
   <!-- Banner -->
   <div class="banner vh-100 d-flex flex-column justify-content-center align-items-center text-center">
     <h1>DriverCom</h1>
-    <p>Community-driven Road Reports</p>
-    <div class="enter-button">
-      <p class="text-dark fw-bold text-center m-0">ENTER</p>
-      <button class="btn-banner d-flex justify-content-center align-items-center m-auto">
+    <p class="mb-5">Community-driven Road Incident Reports</p>
+    <div class="enter-button position-absolute">
+      <p class="text-dark fw-bold text-center mb-1">ENTER</p>
+      <button id ="scrolldown" class="btn-banner d-flex justify-content-center align-items-center m-auto fa-beat">
         <i class="fa-solid fa-chevron-down"></i>
       </button>
     </div>
@@ -19,85 +19,49 @@
 
   <!-- Hall of Fame -->
   <section id="hof" class="py-5">
-    <div class="container">
-      <h2 class="text-center mb-5">Hall of Fame</h2>
-      <div class="d-flex align-items-center justify-content-center">
-        <div class="plates p-4 border-end">
-          <div class="card my-3">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <a href="#" class="btn btn-primary">Go somewhere</a>
+    <div class="container mb-5">
+      <div class="plates mb-5">
+        <h3 class="text-center">Hall of Fame</h3>
+        <div class="px-4 d-flex gap-5">
+          {% for top_plate in top_plates %}
+            <div class="card border-success my-3 position-relative {{ 'fa-beat' if top_plate.good_count == top_count else '' }}">
+              <div class="card-body">
+                <h5 class="card-title text-center">{{ top_plate.plate}}</h5>
+                <p class="card-text text-center text-muted">With {{ top_plate.good_count }} positive incident{{ "s" if top_plate.good_count > 1 else "" }}!</p>
+              </div>
+              <i class="fa-solid fa-crown fa-2xl position-absolute {{ 'text-warning' if top_plate.good_count == top_count else '' }}"></i>
             </div>
-          </div>
-          <div class="card my-3">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-          </div>
-          <div class="card my-3">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-          </div>
-          <div class="card my-3">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-          </div>
-          <div class="card my-3">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-          </div>
-        </div>
-        <div class="good-reports p-4">
-          <div class="card my-3">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-          </div>
-          <div class="card my-3">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-          </div>
-          <div class="card my-3">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-          </div>
-          <div class="card my-3">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-          </div>
-          <div class="card my-3">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-          </div>
+          {% endfor %}
         </div>
       </div>
+      <div class="incidents m-auto px-4 mb-5">
+        <h3 class="text-center">Recent Incidents</h3>
+        {% for incident in incidents %}
+          <div class="card my-3">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center">
+                <h5 class="card-title">{{ incident.plate }}</h5>
+                {% if incident.type == "Good" %}
+                  <i class="fa-regular fa-face-laugh-beam fa-xl text-success"></i>
+                {% elif incident.type == "Bad" %}
+                  <i class="fa-regular fa-face-frown-open fa-xl text-danger"></i>
+                {% else %}
+                  <i class="fa-regular fa-face-meh fa-xl text-warning"></i>
+                {% endif %}
+              </div>
+              <p class="card-text">{{ incident.content }}</p>
+              <p class="card-text text-muted text-end">{{ incident.name }} | {{ incident.formatted_created_at }}</p>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
     </div>
+    <!-- <div class="d-flex justify-content-center">
+      <a type="button" href="/reports" class="btn btn-outline-primary rounded-3">View All Reports</a>
+    </div> -->
   </section>
+
+   <!-- Scroll Down js -->
+   <script type="text/javascript" src="{{ url_for('static', filename='javascript/scrolldown.js') }}"></script>
 
 {% endblock %}
